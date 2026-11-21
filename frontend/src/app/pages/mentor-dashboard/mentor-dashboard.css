@@ -1,0 +1,318 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.mentor-dashboard {
+  min-height: 100vh;
+  background: #f4f6fb;
+  color: #202b3c;
+  font-family: Arial, sans-serif;
+}
+
+.topbar {
+  background: #ffffff;
+  padding: 20px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.topbar h2 {
+  margin: 0;
+  color: #4f46e5;
+}
+
+.topbar p,
+.welcome p,
+.section-heading p {
+  color: #788397;
+  margin: 5px 0 0;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  border: none;
+  border-radius: 7px;
+  padding: 10px 17px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.refresh-btn {
+  background: #e8eaff;
+  color: #4f46e5;
+}
+
+.logout-btn {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 35px 20px;
+}
+
+.welcome {
+  margin-bottom: 25px;
+}
+
+.welcome h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.summary-card,
+.overall-progress,
+.learners-section,
+.details-section {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+.summary-card span {
+  color: #788397;
+  font-size: 14px;
+}
+
+.summary-card h2 {
+  margin: 12px 0 0;
+  font-size: 27px;
+  color: #4f46e5;
+}
+
+.progress-heading,
+.goal-heading,
+.section-heading,
+.details-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.progress-heading h3,
+.section-heading h2 {
+  margin: 0;
+}
+
+.progress-heading p {
+  margin: 6px 0 0;
+  color: #788397;
+}
+
+.progress-heading strong,
+.goal-heading strong {
+  font-size: 24px;
+  color: #4f46e5;
+}
+
+.progress-track {
+  height: 10px;
+  background: #e8eaf0;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 18px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4f46e5;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.learners-section {
+  margin-top: 25px;
+}
+
+.learner-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.learner-card {
+  border: 1px solid #e7eaf0;
+  padding: 20px;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.learner-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #e8eaff;
+  color: #4f46e5;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.learner-card h3 {
+  margin: 14px 0 5px;
+}
+
+.email,
+.details-heading p {
+  color: #788397;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.learner-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.learner-stats strong,
+.learner-stats span {
+  display: block;
+}
+
+.learner-stats strong {
+  font-size: 17px;
+}
+
+.learner-stats span {
+  margin-top: 5px;
+  color: #788397;
+  font-size: 12px;
+}
+
+.progress-track.small {
+  height: 7px;
+  margin-top: 18px;
+}
+
+.view-btn {
+  width: 100%;
+  margin-top: 18px;
+  background: #4f46e5;
+  color: white;
+}
+
+.details-section {
+  margin-top: 25px;
+}
+
+.close-btn {
+  background: #e8eaf0;
+  color: #374151;
+}
+
+.goal-card {
+  border: 1px solid #e7eaf0;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 18px;
+}
+
+.goal-heading h3 {
+  margin: 0;
+}
+
+.goal-heading p {
+  color: #788397;
+  font-size: 14px;
+}
+
+.goal-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 17px;
+  color: #596579;
+  font-size: 13px;
+}
+
+.pending-topics {
+  margin-top: 20px;
+}
+
+.pending-topics h4 {
+  margin-bottom: 10px;
+}
+
+.pending-topics li {
+  margin-bottom: 7px;
+  color: #788397;
+}
+
+.empty-state,
+.loading {
+  padding: 25px;
+  text-align: center;
+  color: #788397;
+}
+
+.error {
+  padding: 12px;
+  margin-bottom: 20px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 8px;
+}
+
+@media (max-width: 850px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .learner-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .topbar {
+    padding: 15px;
+  }
+
+  .container {
+    padding: 22px 14px;
+  }
+
+  .summary-grid,
+  .learner-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome h1 {
+    font-size: 23px;
+  }
+
+  .topbar-actions {
+    gap: 5px;
+  }
+
+  button {
+    padding: 9px 11px;
+  }
+
+  .goal-heading {
+    align-items: flex-start;
+  }
+}

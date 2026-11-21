@@ -1,0 +1,237 @@
+
+<div class="mentor-dashboard">
+
+  <header class="topbar">
+    <div>
+      <h2>StudyFlow</h2>
+      <p>Mentor Dashboard</p>
+    </div>
+
+    <div class="topbar-actions">
+      <button
+        class="refresh-btn"
+        (click)="loadLearners()">
+        Refresh
+      </button>
+
+      <button
+        class="refresh-btn"
+        (click)="openSettings()">
+        Settings
+      </button>
+
+      <button
+        class="logout-btn"
+        (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+      <h1>Welcome, Mentor!</h1>
+      <p>Monitor learner activity and learning progress.</p>
+    </section>
+
+    <div class="error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="loading" *ngIf="loading">
+      Loading learners...
+    </div>
+
+    <section class="summary-grid" *ngIf="!loading">
+
+      <div class="summary-card">
+        <span>Total Learners</span>
+        <h2>{{ learners.length }}</h2>
+      </div>
+
+      <div class="summary-card">
+        <span>Total Goals</span>
+        <h2>{{ totalGoals }}</h2>
+      </div>
+
+      <div class="summary-card">
+        <span>Completed Topics</span>
+        <h2>{{ completedTopics }} / {{ totalTopics }}</h2>
+      </div>
+
+      <div class="summary-card">
+        <span>Total Study Hours</span>
+        <h2>{{ totalStudyHours }}</h2>
+      </div>
+
+    </section>
+
+    <section class="overall-progress" *ngIf="!loading">
+      <div class="progress-heading">
+        <div>
+          <h3>Overall Learning Progress</h3>
+          <p>Combined progress of all learners</p>
+        </div>
+
+        <strong>{{ overallCompletion }}%</strong>
+      </div>
+
+      <div class="progress-track">
+        <div
+          class="progress-fill"
+          [style.width.%]="overallCompletion">
+        </div>
+      </div>
+    </section>
+
+    <section class="learners-section" *ngIf="!loading">
+
+      <div class="section-heading">
+        <div>
+          <h2>Registered Learners</h2>
+          <p>View individual learner performance.</p>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="learners.length === 0">
+        No learners registered yet.
+      </div>
+
+      <div class="learner-grid">
+
+        <article
+          class="learner-card"
+          *ngFor="let item of learnerOverviews">
+
+          <div class="learner-avatar">
+            {{ item.learner.name.charAt(0).toUpperCase() }}
+          </div>
+
+          <h3>{{ item.learner.name }}</h3>
+          <p class="email">{{ item.learner.email }}</p>
+
+          <div class="learner-stats">
+            <div>
+              <strong>{{ item.progress.length }}</strong>
+              <span>Goals</span>
+            </div>
+
+            <div>
+              <strong>
+                {{ getLearnerCompletion(item.progress) }}%
+              </strong>
+              <span>Progress</span>
+            </div>
+
+            <div>
+              <strong>
+                {{ getLearnerStudyHours(item.progress) }}h
+              </strong>
+              <span>Study Time</span>
+            </div>
+          </div>
+
+          <div class="progress-track small">
+            <div
+              class="progress-fill"
+              [style.width.%]="getLearnerCompletion(item.progress)">
+            </div>
+          </div>
+
+          <button
+            class="view-btn"
+            (click)="viewLearner(item.learner)">
+            View Details
+          </button>
+
+        </article>
+
+      </div>
+    </section>
+
+    <section class="details-section" *ngIf="selectedLearner">
+
+      <div class="details-heading">
+        <div>
+          <h2>{{ selectedLearner.name }}</h2>
+          <p>{{ selectedLearner.email }}</p>
+        </div>
+
+        <button
+          class="close-btn"
+          (click)="closeLearnerDetails()">
+          Close
+        </button>
+      </div>
+
+      <div class="loading" *ngIf="loadingDetails">
+        Loading learner details...
+      </div>
+
+      <div
+        class="empty-state"
+        *ngIf="!loadingDetails && selectedProgress.length === 0">
+        This learner has not created any goals yet.
+      </div>
+
+      <div
+        class="goal-card"
+        *ngFor="let item of selectedProgress">
+
+        <div class="goal-heading">
+          <div>
+            <h3>{{ item.goal.title }}</h3>
+            <p>{{ item.goal.description || 'No description' }}</p>
+          </div>
+
+          <strong>
+            {{ item.summary.completionPercentage }}%
+          </strong>
+        </div>
+
+        <div class="progress-track">
+          <div
+            class="progress-fill"
+            [style.width.%]="item.summary.completionPercentage">
+          </div>
+        </div>
+
+        <div class="goal-stats">
+          <span>
+            Completed: {{ item.summary.completedTopics }}
+          </span>
+
+          <span>
+            Pending: {{ item.summary.pendingTopics }}
+          </span>
+
+          <span>
+            Total Topics: {{ item.summary.totalTopics }}
+          </span>
+
+          <span>
+            Study Hours: {{ item.summary.totalHours }}
+          </span>
+        </div>
+
+        <div class="pending-topics">
+          <h4>Pending Topics</h4>
+
+          <p *ngIf="item.pendingTopicList.length === 0">
+            All topics completed!
+          </p>
+
+          <ul *ngIf="item.pendingTopicList.length > 0">
+            <li *ngFor="let topic of item.pendingTopicList">
+              {{ topic.title }}
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+</div>

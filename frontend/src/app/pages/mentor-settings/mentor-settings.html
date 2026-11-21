@@ -1,0 +1,93 @@
+
+<div class="settings-page">
+
+  <header class="settings-header">
+    <div>
+      <h2>StudyFlow</h2>
+      <p>Mentor Settings</p>
+    </div>
+
+    <button class="back-btn" (click)="backToDashboard()">
+      Back to Dashboard
+    </button>
+  </header>
+
+  <main class="settings-container">
+
+    <section class="welcome">
+      <h1>Application Settings</h1>
+      <p>Configure study session rules and topic prerequisites.</p>
+    </section>
+
+    <div class="message success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="message error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="loading" *ngIf="loading">
+      Loading settings...
+    </div>
+
+    <section class="settings-card" *ngIf="!loading">
+
+      <div class="setting-item">
+        <div>
+          <h3>Minimum Session Duration</h3>
+          <p>Minimum minutes allowed for one study session.</p>
+        </div>
+
+        <div class="setting-input">
+          <input
+            type="number"
+            min="1"
+            [(ngModel)]="settings.minSessionMinutes">
+          <span>Minutes</span>
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <h3>Maximum Session Duration</h3>
+          <p>Maximum minutes allowed for one study session.</p>
+        </div>
+
+        <div class="setting-input">
+          <input
+            type="number"
+            min="1"
+            [(ngModel)]="settings.maxSessionMinutes">
+          <span>Minutes</span>
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <h3>Maximum Prerequisites Per Topic</h3>
+          <p>Maximum number of prerequisite topics allowed.</p>
+        </div>
+
+        <div class="setting-input">
+          <input
+            type="number"
+            min="1"
+            [(ngModel)]="settings.maxPrerequisitesPerTopic">
+          <span>Topics</span>
+        </div>
+      </div>
+
+      <button
+        class="save-btn"
+        (click)="saveSettings()"
+        [disabled]="saving">
+
+        {{ saving ? 'Saving...' : 'Save Settings' }}
+
+      </button>
+
+    </section>
+
+  </main>
+</div>

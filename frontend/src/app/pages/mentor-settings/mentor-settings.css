@@ -1,0 +1,155 @@
+
+.settings-page {
+  min-height: 100vh;
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.settings-header {
+  background: #ffffff;
+  padding: 18px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.settings-header h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.settings-header p {
+  margin: 4px 0 0;
+  color: #64748b;
+}
+
+.back-btn,
+.save-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 11px 18px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.back-btn {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.settings-container {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.welcome {
+  margin-bottom: 25px;
+}
+
+.welcome h1 {
+  margin-bottom: 8px;
+}
+
+.welcome p,
+.setting-item p {
+  color: #64748b;
+}
+
+.settings-card {
+  background: white;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.setting-item h3 {
+  margin: 0 0 7px;
+  font-size: 16px;
+}
+
+.setting-item p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.setting-input {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.setting-input input {
+  width: 90px;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 15px;
+}
+
+.setting-input span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.save-btn {
+  margin-top: 25px;
+  background: #2563eb;
+  color: white;
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.message {
+  padding: 13px 16px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+}
+
+.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.loading {
+  padding: 20px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .setting-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .settings-header {
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .settings-container {
+    margin-top: 25px;
+  }
+
+  .settings-card {
+    padding: 18px;
+  }
+}

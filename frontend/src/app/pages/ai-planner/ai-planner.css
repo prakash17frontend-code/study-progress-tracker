@@ -1,0 +1,206 @@
+
+.planner-container {
+  min-height: 100vh;
+  padding: 35px;
+  background: #f4f7fb;
+  color: #1e293b;
+  font-family: Arial, sans-serif;
+}
+
+.planner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.planner-header h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  color: #172554;
+}
+
+.planner-header p {
+  margin: 0;
+  color: #64748b;
+}
+
+.back-button {
+  text-decoration: none;
+  background: #e2e8f0;
+  color: #1e293b;
+  padding: 11px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.planner-form {
+  max-width: 650px;
+  padding: 28px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+  margin-bottom: 35px;
+}
+
+.planner-form h2,
+.study-plan h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: #1e3a8a;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 9px;
+}
+
+.form-group input {
+  padding: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.planner-form button {
+  width: 100%;
+  padding: 14px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.planner-form button:hover {
+  background: #1d4ed8;
+}
+
+.planner-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #dc2626;
+  margin-top: 15px;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.summary div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+}
+
+.summary span {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.summary strong {
+  color: #1d4ed8;
+  font-size: 18px;
+}
+
+.day-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+}
+
+.day-card h3 {
+  color: #1e40af;
+  margin-top: 0;
+}
+
+.focus {
+  color: #475569;
+  font-weight: 600;
+}
+
+.activity {
+  padding: 15px;
+  margin-top: 12px;
+  background: #f8fafc;
+  border-left: 4px solid #3b82f6;
+  border-radius: 6px;
+}
+
+.activity h4 {
+  margin: 0 0 8px;
+}
+
+.activity p {
+  color: #475569;
+  margin: 5px 0;
+}
+
+.activity span {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.total-time {
+  margin-top: 18px;
+  text-align: right;
+  font-weight: 700;
+  color: #15803d;
+}
+
+.tips {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  margin-top: 25px;
+}
+
+.tips h3 {
+  color: #1e40af;
+}
+
+.tips li {
+  margin-bottom: 10px;
+  color: #475569;
+}
+
+@media (max-width: 700px) {
+  .planner-container {
+    padding: 18px;
+  }
+
+  .planner-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+  }
+}

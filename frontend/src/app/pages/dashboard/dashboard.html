@@ -1,0 +1,603 @@
+
+<div class="dashboard">
+
+  <!-- Header -->
+  <header class="topbar">
+    <div>
+      <h2>StudyFlow</h2>
+      <p>Learning Progress Tracker</p>
+    </div>
+    <button (click)="logout()">Logout</button>
+  </header>
+
+  <main class="container">
+
+    <h1>My Learning Dashboard</h1>
+    <p>Manage your learning goals and topics.</p>
+
+    <!-- AI Study Planner -->
+    <section class="panel ai-planner-panel">
+      <div>
+        <h2>StudyFlow AI Planner</h2>
+        <p>Generate a personalized study schedule based on your learning goals.</p>
+      </div>
+
+      <a routerLink="/ai-planner" class="ai-planner-button">
+        Generate AI Study Plan
+      </a>
+    </section>
+
+    <!-- AI SMART TOPIC RECOMMENDATIONS -->
+    <section class="panel ai-recommendations-panel">
+
+      <div class="section-heading">
+        <div>
+          <h2>AI Smart Topic Recommendations</h2>
+          <p>
+            Discover what you should study next based on your learning progress.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          (click)="loadRecommendations()"
+          [disabled]="loadingRecommendations">
+          {{ loadingRecommendations ? 'Refreshing...' : 'Refresh Recommendations' }}
+        </button>
+      </div>
+
+      <!-- Loading -->
+      <p *ngIf="loadingRecommendations">
+        AI is analyzing your learning goals and topics...
+      </p>
+
+      <!-- Error -->
+      <p
+        class="error"
+        *ngIf="!loadingRecommendations && recommendationError">
+        {{ recommendationError }}
+      </p>
+
+      <!-- Recommendation Cards -->
+      <div
+        class="recommendation-list"
+        *ngIf="!loadingRecommendations && recommendations.length > 0">
+
+        <article
+          class="recommendation-card"
+          *ngFor="let recommendation of recommendations">
+
+          <span class="recommendation-label">
+            Recommended Next Topic
+          </span>
+
+          <h3>{{ recommendation.topicTitle }}</h3>
+
+          <p>
+            <strong>Learning Goal:</strong>
+            {{ recommendation.goalTitle }}
+          </p>
+
+          <p *ngIf="recommendation.description">
+            {{ recommendation.description }}
+          </p>
+
+          <div class="recommendation-reason">
+            <h4>Why AI recommends this</h4>
+            <p>{{ recommendation.reason }}</p>
+          </div>
+
+          <div class="recommendation-action">
+            <h4>Suggested Action</h4>
+            <p>{{ recommendation.suggestedAction }}</p>
+          </div>
+
+        </article>
+
+      </div>
+
+      <!-- No Recommendations -->
+      <div
+        class="empty-recommendations"
+        *ngIf="
+          !loadingRecommendations &&
+          !recommendationError &&
+          recommendations.length === 0
+        ">
+
+        <h3>No new recommendations available</h3>
+
+        <p>
+          Complete or add learning topics to receive personalized AI recommendations.
+        </p>
+
+      </div>
+
+      <!-- Blocked Topics -->
+      <div
+        class="blocked-topics-section"
+        *ngIf="!loadingRecommendations && blockedTopics.length > 0">
+
+        <h3>Topics Waiting for Prerequisites</h3>
+
+        <p>
+          Complete the following prerequisite topics to unlock these topics.
+        </p>
+
+        <article
+          class="blocked-topic-card"
+          *ngFor="let blocked of blockedTopics">
+
+          <h4>{{ blocked.topicTitle }}</h4>
+
+          <p>
+            <strong>Learning Goal:</strong>
+            {{ blocked.goalTitle }}
+          </p>
+
+          <p><strong>Complete these prerequisites:</strong></p>
+
+          <ul>
+            <li *ngFor="let prerequisite of blocked.missingPrerequisites">
+              {{ prerequisite.title }}
+            </li>
+          </ul>
+
+        </article>
+
+      </div>
+
+      <!-- General AI Tip -->
+      <div
+        class="recommendation-tip"
+        *ngIf="!loadingRecommendations && recommendationTip">
+
+        <h4>AI Study Tip</h4>
+        <p>{{ recommendationTip }}</p>
+
+      </div>
+
+    </section>
+
+    <!-- Create / Edit Goal -->
+    <section class="panel">
+      <h2>{{ editingId ? 'Edit Goal' : 'Create Goal' }}</h2>
+
+      <form (ngSubmit)="saveGoal()">
+
+        <input
+          name="title"
+          [(ngModel)]="title"
+          placeholder="Goal title"
+          maxlength="150"
+          required
+        />
+
+        <textarea
+          name="description"
+          [(ngModel)]="description"
+          placeholder="Goal description">
+        </textarea>
+
+        <button type="submit" [disabled]="saving">
+          {{ saving ? 'Saving...' : editingId ? 'Update Goal' : 'Create Goal' }}
+        </button>
+
+        <button
+          type="button"
+          *ngIf="editingId"
+          (click)="resetForm()">
+          Cancel
+        </button>
+
+      </form>
+    </section>
+
+    <!-- Messages -->
+    <p class="error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+
+    <p class="success" *ngIf="successMessage">
+      {{ successMessage }}
+    </p>
+
+    <!-- Overall Study Summary -->
+    <section class="panel session-summary">
+
+      <h2>Study Overview</h2>
+
+      <div class="summary-grid">
+
+        <div class="summary-card">
+          <h3>{{ sessions.length }}</h3>
+          <p>Total Sessions</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>{{ totalStudyHours }}h {{ remainingStudyMinutes }}m</h3>
+          <p>Total Study Time</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>{{ goals.length }}</h3>
+          <p>Learning Goals</p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Overall Session History -->
+    <section class="panel">
+
+      <div class="section-heading">
+        <h2>Overall Study Session History</h2>
+
+        <button
+          type="button"
+          (click)="loadSessions()">
+          Refresh
+        </button>
+      </div>
+
+      <p *ngIf="loadingSessions">
+        Loading study sessions...
+      </p>
+
+      <p *ngIf="!loadingSessions && sessions.length === 0">
+        No study sessions recorded yet.
+      </p>
+
+      <div
+        class="session-card"
+        *ngFor="let session of sessions">
+
+        <div class="session-info">
+
+          <h3>{{ session.topic.title }}</h3>
+
+          <p>
+            Goal: {{ session.goal?.title || 'Study goal' }}
+          </p>
+
+          <p>
+            Date:
+            {{ session.sessionDate | date:'mediumDate':'UTC' }}
+          </p>
+
+          <p>
+            Duration: {{ formatDuration(session.minutes) }}
+          </p>
+
+          <p *ngIf="session.note">
+            Note: {{ session.note }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Goals -->
+    <section class="goals-section">
+
+      <h2>My Goals ({{ goals.length }})</h2>
+
+      <p *ngIf="loading">Loading goals...</p>
+
+      <p *ngIf="!loading && goals.length === 0">
+        No goals created yet.
+      </p>
+
+      <article
+        class="goal-card"
+        *ngFor="let goal of goals">
+
+        <h3>{{ goal.title }}</h3>
+
+        <p>{{ goal.description || 'No description' }}</p>
+
+        <!-- Learning Progress -->
+        <div
+          class="progress-section"
+          *ngIf="progressByGoal[goal.id] as progress">
+
+          <div class="progress-header">
+            <strong>Learning Progress</strong>
+
+            <strong>
+              {{ progress.summary.completionPercentage }}%
+            </strong>
+          </div>
+
+          <div class="progress-track">
+            <div
+              class="progress-fill"
+              [style.width.%]="progress.summary.completionPercentage">
+            </div>
+          </div>
+
+          <p>
+            {{ progress.summary.completedTopics }} /
+            {{ progress.summary.totalTopics }}
+            topics completed
+          </p>
+
+         <p>
+  Study time:
+  {{ progress.summary.totalMinutes }} minutes
+  ({{ progress.summary.totalHours }} hours)
+</p>
+
+<!-- Topic Progress Chart -->
+<div class="topic-chart">
+  <h4>Topic Completion Chart</h4>
+
+  <div class="chart-legend">
+    <span><i class="legend-completed"></i> Completed</span>
+    <span><i class="legend-pending"></i> Pending</span>
+  </div>
+
+  <div
+    class="topic-chart-row"
+    *ngFor="let item of progress.chartData">
+
+    <span class="chart-topic-name">{{ item.topic }}</span>
+
+    <div class="topic-chart-track">
+      <div
+        class="topic-chart-completed"
+        [style.width.%]="item.completed * 100">
+      </div>
+    </div>
+
+    <span class="chart-status">
+      {{ item.completed ? 'Done' : 'Pending' }}
+    </span>
+  </div>
+</div>
+        </div>
+
+        <!-- Goal Actions -->
+        <div class="actions">
+
+          <button (click)="toggleTopics(goal.id)">
+            {{ expandedGoalId === goal.id ? 'Hide Topics' : 'View Topics' }}
+          </button>
+
+          <button (click)="editGoal(goal)">
+            Edit
+          </button>
+
+          <button (click)="deleteGoal(goal.id)">
+            Delete
+          </button>
+
+        </div>
+
+        <!-- Topics Section -->
+        <div
+          class="topics-area"
+          *ngIf="expandedGoalId === goal.id">
+
+          <h3>Topics</h3>
+
+          <p *ngIf="loadingTopics">
+            Loading topics...
+          </p>
+
+          <!-- Create / Edit Topic -->
+          <form (ngSubmit)="saveTopic(goal.id)">
+
+            <input
+              name="topicTitle"
+              [(ngModel)]="topicTitle"
+              placeholder="Topic title"
+              maxlength="150"
+              required
+            />
+
+            <textarea
+              name="topicDescription"
+              [(ngModel)]="topicDescription"
+              placeholder="Topic description">
+            </textarea>
+
+            <button type="submit" [disabled]="saving">
+              {{ editingTopicId ? 'Update Topic' : 'Add Topic' }}
+            </button>
+
+            <button
+              type="button"
+              *ngIf="editingTopicId"
+              (click)="resetTopicForm()">
+              Cancel
+            </button>
+
+          </form>
+
+          <p
+            *ngIf="!loadingTopics &&
+            (topicsByGoal[goal.id] || []).length === 0">
+            No topics added yet.
+          </p>
+
+          <!-- Individual Topics -->
+          <div
+            class="topic-card"
+            *ngFor="let topic of topicsByGoal[goal.id] || []">
+
+            <h4>{{ topic.title }}</h4>
+
+            <p>
+              {{ topic.description || 'No description' }}
+            </p>
+
+            <span
+              class="topic-status"
+              [class.completed]="topic.isCompleted">
+              {{ topic.isCompleted ? 'Completed' : 'Pending' }}
+            </span>
+
+            <p *ngIf="topic.isLocked" class="locked-message">
+              Locked: Complete prerequisites first.
+            </p>
+
+            <!-- Topic Actions -->
+            <div class="actions">
+
+              <button
+                (click)="toggleCompletion(topic, goal.id)"
+                [disabled]="topic.isLocked && !topic.isCompleted">
+                {{ topic.isCompleted ? 'Reopen' : 'Complete' }}
+              </button>
+
+              <button (click)="editTopic(topic)">
+                Edit
+              </button>
+
+              <button (click)="deleteTopic(topic.id, goal.id)">
+                Delete
+              </button>
+
+            </div>
+
+            <!-- Topic Study Sessions -->
+            <div class="topic-sessions">
+
+              <div class="section-heading">
+
+                <h4>Study Sessions</h4>
+
+                <button
+                  type="button"
+                  (click)="toggleSessionForm(topic.id)">
+                  {{ sessionFormTopicId === topic.id
+                    ? 'Close Form'
+                    : 'Add Study Session' }}
+                </button>
+
+              </div>
+
+              <!-- Session Form -->
+              <form
+                *ngIf="sessionFormTopicId === topic.id"
+                (ngSubmit)="saveSession(topic.id)"
+                class="session-form">
+
+                <label>Study Date</label>
+
+                <input
+                  type="date"
+                  name="sessionDate"
+                  [(ngModel)]="sessionDate"
+                  [max]="todayDate"
+                  required
+                />
+
+                <label>Duration (minutes)</label>
+
+                <input
+                  type="number"
+                  name="sessionMinutes"
+                  [(ngModel)]="sessionMinutes"
+                  placeholder="Example: 60"
+                  min="5"
+                  max="480"
+                  step="1"
+                  required
+                />
+
+                <label>Study Notes</label>
+
+                <textarea
+                  name="sessionNote"
+                  [(ngModel)]="sessionNote"
+                  placeholder="What did you learn in this session?">
+                </textarea>
+
+                <button type="submit" [disabled]="saving">
+                  {{ saving
+                    ? 'Saving...'
+                    : editingSessionId
+                      ? 'Update Session'
+                      : 'Save Session' }}
+                </button>
+
+                <button
+                  type="button"
+                  (click)="cancelSessionEdit()">
+                  Cancel
+                </button>
+
+                <p class="form-hint">
+                  Duration must be between 5 and 480 minutes.
+                </p>
+
+              </form>
+
+              <!-- Topic-wise History -->
+              <div class="topic-history">
+
+                <h5>Session History</h5>
+
+                <p
+                  *ngIf="sessionsByTopic[topic.id] &&
+                  sessionsByTopic[topic.id].length === 0">
+                  No sessions recorded for this topic.
+                </p>
+
+                <div
+                  class="session-card"
+                  *ngFor="let session of sessionsByTopic[topic.id] || []">
+
+                  <p>
+                    <strong>
+                      {{ session.sessionDate | date:'mediumDate':'UTC' }}
+                    </strong>
+                  </p>
+
+                  <p>
+                    Duration:
+                    {{ formatDuration(session.minutes) }}
+                  </p>
+
+                  <p *ngIf="session.note">
+                    {{ session.note }}
+                  </p>
+
+                  <div class="actions">
+
+                    <button
+                      type="button"
+                      (click)="editSession(session, topic.id)">
+                      Edit
+                    </button>
+
+                    <button
+                      type="button"
+                      class="delete-button"
+                      (click)="deleteSession(session.id, topic.id)">
+                      Delete
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </section>
+
+  </main>
+</div>

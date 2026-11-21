@@ -1,0 +1,13 @@
+
+.env
+.env.local
+.env.*
+!.env.example
+
+node_modules/
+dist/
+
+.neon
+
+backend/create-mentor.ts
+*.tsbuildinfo
