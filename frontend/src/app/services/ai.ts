@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AiService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/ai';
+  private apiUrl = 'https://studyflow-backend-1bxh.onrender.com/ai';
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');

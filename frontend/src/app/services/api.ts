@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class Api {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = 'https://studyflow-backend-1bxh.onrender.com';
 
   constructor(private http: HttpClient) {}
 
