@@ -331,6 +331,8 @@ Relationships:
 
 ## Automated Tests
 
+StudyFlow includes **27 automated tests** (18 backend unit/integration tests using Jest and 9 frontend tests using Jasmine/Karma) covering authentication, prerequisite cycle detection, session validation, and mentor settings.
+
 Backend test command:
 `cd backend && npm test -- --runInBand`
 
