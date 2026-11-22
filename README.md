@@ -310,4 +310,53 @@ Technologies: Angular, TypeScript, NestJS, Node.js, PostgreSQL and AI API Integr
 
 ---
 
-**StudyFlow – Plan Your Learning. Track Your Progress. Achieve Your Goals.**
+**StudyFlow – Plan Your Learning. Track Your Progress. Achieve Your Goals.**## Database Model
+
+StudyFlow uses PostgreSQL and TypeORM.
+
+Entities:
+- User (users): User details, credentials and roles.
+- Goal (goals): Learner learning goals.
+- Topic (topics): Topics and completion status.
+- StudySession (study_sessions): Study dates, duration and notes.
+- TopicPrerequisite (topic_prerequisites): Prerequisite relationships.
+- AppSetting (app_settings): Configurable application settings using JSONB.
+
+Relationships:
+- One User has many Goals.
+- One User has many Study Sessions.
+- One Goal has many Topics.
+- One Topic can have many Study Sessions.
+- Topics can depend on other Topics through TopicPrerequisite.
+
+## Automated Tests
+
+Backend test command:
+`cd backend && npm test -- --runInBand`
+
+Frontend test command:
+`cd frontend && npm test -- --watch=false`
+
+Verified results:
+- Backend: 18 tests passed.
+- Frontend: 9 tests passed.
+- Total: 27 tests passed.
+
+## Database Model
+
+StudyFlow uses PostgreSQL and TypeORM.
+
+Entities:
+- User (users): User details, credentials and roles.
+- Goal (goals): Learner learning goals.
+- Topic (topics): Topics and completion status.
+- StudySession (study_sessions): Study dates, duration and notes.
+- TopicPrerequisite (topic_prerequisites): Prerequisite relationships.
+- AppSetting (app_settings): Configurable application settings using JSONB.
+
+Relationships:
+- One User has many Goals.
+- One User has many Study Sessions.
+- One Goal has many Topics.
+- One Topic can have many Study Sessions.
+- Topics can depend on other Topics through TopicPrerequisite.
